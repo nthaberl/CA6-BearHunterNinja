@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Natascha Haberl">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bear Hunter Ninja</title>
+</head>
+
+<body>
+    <div>
+        <p id="display">
+        </p>
+        <script type="text/javascript">
+            //initializing the player's name and choice variables via prompted user input
+            let playerName = prompt("Welcome to Bear Hunter Ninja! Please enter your name to get started: ")
+            alert(`Hi ${playerName} Let's play!`)
+            let playerChoice = prompt("Who are you: Bear, Ninja, or Hunter?")
+            let computerChoice = "Bear";
+
+            //outputting the results to the console
+            console.log(`${playerName}, You picked ${playerChoice}!\nThe computer picked ${computerChoice}!`)
+
+            //outputting the results to the webpage 
+            document.getElementById("display").innerHTML = `${playerName}, You picked ${playerChoice}! <br>
+            The computer picked ${computerChoice}!`;
+        </script>
+    </div>
+</body>
+
+</html>
