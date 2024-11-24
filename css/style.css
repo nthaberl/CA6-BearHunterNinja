@@ -1,0 +1,30 @@
+img {
+    border-radius: 10px;
+    max-width: 300px;
+}
+
+body {
+    background-color: #1a2338;
+    padding: 20px;
+    color: #e4ffc3;
+    font-family: sans-serif;
+    font-weight: 700;
+}
+
+div {
+    border-radius: 10px;
+    text-align: center;
+    background-color: #30374b;
+    margin: auto;
+    width: 30%;
+    min-width: 350px;
+    padding: 20px;
+}
+
+a {
+    color: #8c8a9f;
+}
+
+#game-tally{
+    text-align: left;
+}
