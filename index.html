@@ -5,26 +5,173 @@
     <meta charset="UTF-8">
     <meta name="author" content="Natascha Haberl">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
     <title>Bear Hunter Ninja</title>
 </head>
 
 <body>
-    <div>
-        <p id="display">
+
+    <!-- HTML for displaying the results -->
+    <div id="result">
+        <p id="invalid-input"></p>
+        <p id="player-display"></p>
+        <img id="player-choice" src="">
+        <p id="computer-display"></p>
+        <img id="computer-choice" src="">
+        <p id="outcome"></p>
+        <p id="game-tally"></p>
+        <p style=" position: absolute; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 70%;">
+            Pictures provided by <a href="pexels.com">Pexels</a> and <a href="unsplash.com">Unsplash</a>
         </p>
+
+        <!-- JS to handle game mechanics -->
         <script type="text/javascript">
-            //initializing the player's name and choice variables via prompted user input
-            let playerName = prompt("Welcome to Bear Hunter Ninja! Please enter your name to get started: ")
-            alert("Hi "+ playerName + " Let\'s play!");
-            let playerChoice = prompt("Who are you: Bear, Ninja, or Hunter?")
-            let computerChoice = "Bear";
 
-            //outputting the results to the console
-            console.log(`${playerName}, You picked ${playerChoice}!\nThe computer picked ${computerChoice}!`)
+            //initializing array that holds possible choices for the game
+            let gameChoices = ["Bear", "Hunter", "Ninja"]
 
-            //outputting the results to the webpage 
-            document.getElementById("display").innerHTML = `${playerName}, You picked ${playerChoice}! <br>
-            The computer picked ${computerChoice}!`;
+            //initializing variables that necessitate global scope
+            let wins = 0, losses = 0, ties = 0, totalGames = 0;
+            let playerName;
+
+            //boolean flags that will switch to true based on outcome of the game
+            let playerWin, playerLose, playerTie;
+
+            //getting player's name via prompt and ensuring they enter a name
+            playerName = prompt("Welcome to Bear Hunter Ninja! Please enter your name to get started: ")
+
+            //if entry is empty or cancel is clicked on prompt, asks user to press F5 to restart game
+            //otherwise will go through gameplay
+            if (playerName === null || playerName.length === 0) {
+                alert('Please Press F5 to try again');
+                document.getElementById("invalid-input").innerHTML = ("Please Press F5 to try again");
+            } else {
+                alert("Hi " + playerName + " Let\'s play!");
+                //begin gameplay loop
+                do {
+                    //resetting the boolean flags
+                    playerWin = false, playerTie = false, playerLose = false;
+    
+                    //randomly choosing computer's choice from array of possible choices
+                    //random numbers will be from 0 - 2, which reference the indices of the array
+                    let computerChoice = gameChoices[Math.floor(Math.random() * 3)];
+    
+                    //grabbing player's choice variable via prompted user input
+                    let playerInput = prompt("Who are you: Bear, Ninja, or Hunter?");
+    
+                    //ensuring the user input is capitalized
+                    let playerChoice = playerInput.toLowerCase();
+                    playerChoice = playerChoice[0].toUpperCase() + playerChoice.slice(1);
+    
+                    //keeping tally of total games played
+                    totalGames++
+    
+                    //countdown from 3-0, inclusive
+                    for (i = 3; i >= 0; i--) {
+                        console.log(`${[i]}`)
+                    }
+    
+                    //using switch statement to determine outcome of game and applicable images
+                    switch (playerChoice) {
+                        case "Bear":
+                            document.getElementById("player-choice").src = "images/bear.jpg";
+                            if (computerChoice === "Ninja") {
+                                document.getElementById("computer-choice").src = "images/ninja.jpg";
+                                wins++;
+                                playerWin = true;
+                            }
+                            else if (computerChoice === "Hunter") {
+                                document.getElementById("computer-choice").src = "images/hunter.jpg";
+                                losses++;
+                                playerLose = true;
+                            }
+                            else {
+                                document.getElementById("computer-choice").src = "images/bear.jpg";
+                                ties++;
+                                playerTie = true;
+                            }
+                            break;
+                        case "Ninja":
+                            document.getElementById("player-choice").src = "images/ninja.jpg";
+                            if (computerChoice === "Bear") {
+                                document.getElementById("computer-choice").src = "images/bear.jpg";
+                                losses++;
+                                playerLose = true;
+                            }
+                            else if (computerChoice === "Hunter") {
+                                document.getElementById("computer-choice").src = "images/hunter.jpg";
+                                wins++;
+                                playerWin = true;
+                            }
+                            else {
+                                document.getElementById("computer-choice").src = "images/ninja.jpg";
+                                ties++;
+                                playerTie = true;
+                            }
+                            break;
+                        case "Hunter":
+                            document.getElementById("player-choice").src = "images/hunter.jpg";
+                            if (computerChoice === "Ninja") {
+                                document.getElementById("computer-choice").src = "images/ninja.jpg";
+                                losses++;
+                                playerLose = true;
+                            }
+                            else if (computerChoice === "Bear") {
+                                document.getElementById("computer-choice").src = "images/bear.jpg";
+                                wins++;
+                                playerWin = true;
+                            }
+                            else {
+                                document.getElementById("computer-choice").src = "images/hunter.jpg";
+                                ties++;
+                                playerTie = true;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //concatenating user input and computer choice to a string to be displayed by html elements
+                    document.getElementById("player-display").innerHTML = (`${playerName} you chose ${playerChoice}!`);
+                    document.getElementById("computer-display").innerHTML = (`The computer chose ${computerChoice}!`);
+                    console.log(`${playerName}, you chose ${playerChoice}!\n\nThe computer chose ${computerChoice}!\n\n`)
+    
+                    //setting variables to dynamically render results
+                    let winMessage = (`You Win!!`);
+                    let loseMessage = (`You Lose :(`);
+                    let tieMessage = (`It's a tie!`);
+                    let border = document.querySelector("#result");
+    
+                    //outputting results to the console, in an alert, and html page based on outcome of game
+                    switch (true) {
+                        case playerWin === true:
+                            alert(`${playerName}, you chose ${playerChoice}!\nThe computer chose ${computerChoice}!\n${winMessage}`)
+                            border.setAttribute("style", "border: solid green 5px;");
+                            document.getElementById("outcome").innerHTML = winMessage;
+                            console.log(winMessage);
+                            break;
+                        case playerLose === true:
+                            alert(`${playerName}, you chose ${playerChoice}!\nThe computer chose ${computerChoice}!\n${loseMessage}`)
+                            border.setAttribute("style", "border: solid red 5px;");
+                            document.getElementById("outcome").innerHTML = loseMessage;
+                            console.log(loseMessage);
+                            break;
+                        case playerTie === true:
+                            alert(`${playerName}, you chose ${playerChoice}!\nThe computer chose ${computerChoice}!\n${tieMessage}`)
+                            border.setAttribute("style", "border: solid #e4ffc3 5px;");
+                            document.getElementById("outcome").innerHTML = tieMessage
+                            console.log(tieMessage);
+                        default:
+                            break;
+                    }
+    
+                    playAgain = prompt(`${playerName}, would you like to play again, Yes or No?`)
+                } while (playAgain.toUpperCase() === "YES")
+
+                //display for total games, wins, losses, and ties
+                document.getElementById("game-tally").innerHTML = (`<hr>Total Games: ${totalGames}<br>Total wins: ${wins}<br>Total losses: ${losses}<br>Total ties: ${ties}`);
+            }
+
         </script>
     </div>
 </body>
